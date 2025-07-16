@@ -11,10 +11,25 @@ class ApiMiddleware
     public function handle(Request $request, Closure $next)
     {
         $uri = $request->segment(3);
+        $show_case = $request->show_case;
         
 
-        if(!in_array($uri, ['login','send-otp','submit-otp','create-password','register-otp-send','register','app-setting']) && !empty($uri))
-        {
+        if(!in_array($uri, [
+            'login',
+            'send-otp',
+            'submit-otp',
+            'create-password',
+            'register-otp-send',
+            'register',
+            'app-setting',
+
+            'category',
+            'sub-category',
+            'sub-sub-category',
+            'sub-sub-sub-category',
+            'post',
+        ]) && !empty($uri))
+        {         
             $authToken = $request->header('Authorization');
             $user = Helpers::decode_token($authToken);
 

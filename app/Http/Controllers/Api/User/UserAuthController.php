@@ -160,6 +160,7 @@ class UserAuthController extends Controller
         $data['state'] = $request->state;
         $data['phone'] = $request->phone;
         $data['country'] = $request->country;
+        $data['free_trial'] = $request->show_case;
         // $data['companyname'] = $request->companyname;
         // $data['category'] = $request->category;
         $data['status'] = 1;
@@ -278,7 +279,12 @@ class UserAuthController extends Controller
             }
 
 
-           
+           if($data['free_trial']==1)
+           {
+            $date_time = date("Y-m-d H:i:s");
+            $data['free_trial_start_date_time'] = $date_time;
+            $data['free_trial_end_date_time'] = date("Y-m-d H:i:s", strtotime("+1 day".$date_time));
+           }
 
 
             $insert_id = DB::table('users')->insertGetId($data);

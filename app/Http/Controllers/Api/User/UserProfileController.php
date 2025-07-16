@@ -42,6 +42,32 @@ class UserProfileController extends Controller
     {
         
     }
+
+    public function token_session($request, $user)
+    {
+        $device_id = $request->device_id;
+        $password = $user->password;
+        $firebase_token = $request->firebase_token;
+        $date_time = date("Y-m-d H:i:s");
+        $token_data = array("user_id"=>$user->id,"password"=>$user->password,"date_time"=>$date_time,"role"=>$user->role,"device_id"=>$device_id,);
+        $access_token = Helpers::encode_token($token_data);
+        $login_detail = array(
+            "user_id"=>$user->id,
+            "role"=>$user->role,
+            "ip_address"=>$_SERVER['REMOTE_ADDR'],
+            "date"=>date("Y-m-d"),
+            "time"=>date("H:i:s"),
+            "status"=>1,
+            "device_id"=>$device_id,
+            "password"=>$password,
+            "firebase_token"=>$firebase_token,
+            "access_token"=>$access_token,
+        );
+        if(DB::table('login_history')->insert($login_detail))
+        {
+        }
+        return $access_token;
+    }
    
     
     public function get_profile(Request $request)
@@ -82,13 +108,13 @@ class UserProfileController extends Controller
         $user_id = $this->user_id;
         
         $data['name'] = $request->name;
-        // $data['email'] = $request->email;
-        // $data['phone'] = $request->mobile;
+        $data['email'] = $request->email;
+        $data['phone'] = $request->mobile;
         $data['country'] = $request->country;
-        $data['state'] = $request->state;
-        $data['city'] = $request->city;
-        $data['category'] = $request->category;
-        $data['companyname'] = $request->companyname;
+        // $data['state'] = $request->state;
+        // $data['city'] = $request->city;
+        // $data['category'] = $request->category;
+        // $data['companyname'] = $request->companyname;
         $data['address'] = $request->address;
 
         DB::table("users")->where(["id"=>$user_id,])->update($data);
@@ -187,19 +213,40 @@ class UserProfileController extends Controller
         $id = $request->id;
 
         $user_id = $this->user_id;
+        $username = $request->username;
         $password = $request->password;
         $cpassword = $request->cpassword;
         
-        if($password!=$cpassword)
+        // if($password!=$cpassword)
+        // {
+        //     $responseCode = 400;
+        //     $result['status'] = $responseCode;
+        //     $result['message'] = 'Confirm Password Not Match';
+        //     $result['action'] = 'return';
+        //     $result['data'] = [];
+        //     return response()->json($result, $responseCode);
+        // }
+
+        if(empty($username))
         {
             $responseCode = 400;
             $result['status'] = $responseCode;
-            $result['message'] = 'Confirm Password Not Match';
+            $result['message'] = 'Enter Username!';
+            $result['action'] = 'return';
+            $result['data'] = [];
+            return response()->json($result, $responseCode);
+        }
+        if(empty($password))
+        {
+            $responseCode = 400;
+            $result['status'] = $responseCode;
+            $result['message'] = 'Enter Password!';
             $result['action'] = 'return';
             $result['data'] = [];
             return response()->json($result, $responseCode);
         }
 
+        $data['username'] = $username;
         $data['password'] = md5($password);
 
         DB::table("users")->where(["id"=>$user_id,])->update($data);

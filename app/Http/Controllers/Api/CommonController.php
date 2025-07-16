@@ -48,6 +48,23 @@ class CommonController extends Controller
 
         return response()->json($result, $responseCode);
     }
+    public function appVisit(Request $request)
+    {
+        $device_id = $request->device_id;
+        $device_detail = $request->device_detail;
+
+        $data['device_id'] = $device_id;
+        $data['device_detail'] = $device_detail;
+        $data['add_date_time'] = date("Y-m-d H:i:s");
+        DB::table("visiters")->insert($data);
+        
+        $responseCode = 200;
+        $result['status'] = $responseCode;
+        $result['message'] = 'Success';
+        $result['action'] = 'return';
+        $result['data'] = [];
+        return response()->json($result, $responseCode);
+    }
     
 
     public function app_setting(Request $request)
@@ -57,6 +74,15 @@ class CommonController extends Controller
 
         $user = DB::table("users")->where(["device_id"=>$device_id,])->first();
         $data['device_is_register'] = empty(!$user)?1 :0 ;
+
+        $free_trial = 0;
+        if(@$user->free_trial==1)
+        {
+            $free_trial = $user->free_trial;
+            if($user->free_trial_end_date_time<date("Y-m-d H:i:s"))
+            $free_trial = 2;
+        }
+        $data['free_trial'] = $free_trial;
         
         $data['total_subscribe'] = 100;
         $data['total_thumb'] = 100;
@@ -86,6 +112,13 @@ class CommonController extends Controller
         ];
 
         
+        $device_id = $request->device_id;
+        $device_detail = ($request->device_detail);
+
+        $dataVisit['device_id'] = $device_id;
+        $dataVisit['device_detail'] = $device_detail;
+        $dataVisit['add_date_time'] = date("Y-m-d H:i:s");
+        DB::table("visiters")->insert($dataVisit);
         
         $responseCode = 200;
         $result['status'] = $responseCode;

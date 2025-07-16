@@ -18,11 +18,11 @@ class UserNewsController extends Controller
 
     public function __construct()
     {
-        $authToken = request()->header('Authorization');
-        $user = Helpers::decode_token($authToken);
-        if ($user) {
-            $this->user_id = $user->user_id;
-        }
+        // $authToken = request()->header('Authorization');
+        // $user = Helpers::decode_token($authToken);
+        // if ($user) {
+        //     $this->user_id = $user->user_id;
+        // }
     }
 
     public function list(Request $request)

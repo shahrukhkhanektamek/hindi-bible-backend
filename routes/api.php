@@ -13,6 +13,9 @@ use App\Http\Controllers\Api\CommonController;
 
 use App\Http\Controllers\Api\User\UserAuthController;
 use App\Http\Controllers\Api\User\UserHomeController;
+use App\Http\Controllers\Api\User\UserProfileController;
+
+
 use App\Http\Controllers\Api\User\UserCategoriesController;
 
 
@@ -50,6 +53,7 @@ use App\Http\Controllers\Api\User\UserCartController;
     Route::get('package', [CommonController::class, 'package']);
     Route::get('state', [CommonController::class, 'state']);
     Route::get('app-setting', [CommonController::class, 'app_setting']);
+    Route::get('app-visit', [CommonController::class, 'appVisit']);
     Route::POST('contact-inquiry', [CommonController::class, 'contactInquiry']);
 /*Common apis end*/
 
