@@ -24,6 +24,7 @@ class UserAuthController extends Controller
         $firebase_token = $request->firebase_token;
         $date_time = date("Y-m-d H:i:s");
         $token_data = array("user_id"=>$user->id,"password"=>$user->password,"date_time"=>$date_time,"role"=>$user->role,"device_id"=>$device_id,);
+        $device_detail = ($request->device_detail);
         $access_token = Helpers::encode_token($token_data);
         $login_detail = array(
             "user_id"=>$user->id,
@@ -36,6 +37,7 @@ class UserAuthController extends Controller
             "password"=>$password,
             "firebase_token"=>$firebase_token,
             "access_token"=>$access_token,
+            "device_detail"=>$device_detail,
         );
         if(DB::table('login_history')->insert($login_detail))
         {
@@ -100,6 +102,10 @@ class UserAuthController extends Controller
         }
         else
         {
+
+            $check_package = Helpers::check_package($user->id);
+            // print_r($check_package);
+
             $responseCode = 200;
             $result['message'] = 'Login Successfully';
             $result['action'] = 'login';
@@ -109,6 +115,7 @@ class UserAuthController extends Controller
             $token = $this->token_session($request,$user);            
             $result['status'] = $responseCode;
             $result['token'] = $token;
+            $result['package'] = $check_package;
             return response()->json($result, $responseCode);
         }
     }

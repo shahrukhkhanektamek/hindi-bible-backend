@@ -176,13 +176,6 @@ class PaymentSettingController extends Controller
         $data->is_delete = 0;
         if($data->save())
         {
-
-            $name  = $data->name;
-            $new_slug = Helpers::slug($name);
-            $old_slug = $data->slug;
-            $insert_id = $data->id;        
-            $data->slug = Helpers::insert_slug($new_slug,$insert_id,"blog_category",$old_slug);
-
             
             $action = 'add';
             if(!empty($id)) $action = 'edit';

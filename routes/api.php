@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\User\UserProfileController;
 
 
 use App\Http\Controllers\Api\User\UserCategoriesController;
+use App\Http\Controllers\Payment\PaymentController;
 
 
 use App\Http\Controllers\Api\User\UserPostController;
@@ -102,7 +103,11 @@ Route::group(['prefix'=>'user','as'=>'user.', 'namespace'=>'User'], function(){
         Route::group(['prefix'=>'post', 'as'=>'post.'], function(){
 
             Route::get('list', [UserPostController::class, 'list']);
-        });        
+        });
+
+        Route::get('create-transaction', [PaymentController::class, 'create_transaction'])->name('create-transaction');
+
+
 
 
 

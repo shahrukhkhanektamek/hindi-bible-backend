@@ -15,6 +15,6 @@ class VerifyCsrfToken extends Middleware
         //
         'phonepe/payment-response',
         'payumoney/payment-response',
-        'upgrade-plan/payment-response'
+        'razorpay/payment-response',
     ];
 }

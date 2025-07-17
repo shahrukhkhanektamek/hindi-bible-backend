@@ -777,6 +777,24 @@ public static function GetUserId()
   return DB::table("users")->select('user_id')->orderBy('user_id','desc')->first()->user_id;
 }
 
+public static function check_package($user_id)
+{
+    $date_time = date("Y-m-d H:i:s");
+    $data['status'] = 0;
+    $data['package'] = [];
+    $user_package = DB::table("user_package")->limit(1)->orderBy("id","desc")->where(["user_id"=>$user_id,])->first();
+    if(!empty($user_package))
+    {
+      $data['status'] = 1;
+      if($date_time>$user_package->end_date_time) $data['status'] = 2;
+      $data['package'] = $user_package;
+    }
+    return $data;
+}
+public static function active_package($user_id)
+{
+    return DB::table("user_package")->limit(1)->orderBy("id","desc")->where(["user_id"=>$user_id,])->first();
+}
 
 
 
