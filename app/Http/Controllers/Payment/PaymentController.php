@@ -19,6 +19,7 @@ class PaymentController extends Controller
         }
     }
 
+    
 
     public function create_transaction(Request $request)
     {
@@ -42,9 +43,9 @@ class PaymentController extends Controller
             $data['mobile'] = $user->phone;
 
             $data['p_id'] = $package->id;
-            $data['amount'] = $package->cost;
+            $data['amount'] = $package->payable_price;
             $data['gst'] = $package->gst;
-            $data['payable_price'] = $package->payable_price;
+            $data['payable_price'] = $package->cost;
 
 
 
@@ -80,6 +81,44 @@ class PaymentController extends Controller
         }
 
 
+    }
+
+    public function check_transaction_status(Request $request)
+    {
+        $user_id = $this->user_id;
+        $id = $request->id;
+        $user = DB::table("users")->where(["id"=>$user_id,])->first();
+        if(!empty($user))
+        {
+            $transaction = DB::table("transaction")->where(["status"=>1,"user_id"=>$user_id,"id"=>$id,])->first();
+            if(!empty($transaction))
+            {
+                $responseCode = 200;
+                $result['status'] = $responseCode;
+                $result['message'] = 'Success!';
+                $result['action'] = 'return';
+                $result['data'] = $transaction;
+                return response()->json($result, $responseCode);
+            }
+            else
+            {
+                $responseCode = 400;
+                $result['status'] = $responseCode;
+                $result['message'] = 'Unpaid!';
+                $result['action'] = 'return';
+                $result['data'] = [];
+                return response()->json($result, $responseCode);
+            }
+        }
+        else
+        {
+            $responseCode = 400;
+            $result['status'] = $responseCode;
+            $result['message'] = 'Something Wrong!';
+            $result['action'] = 'return';
+            $result['data'] = [];
+            return response()->json($result, $responseCode);
+        }
     }
 
 

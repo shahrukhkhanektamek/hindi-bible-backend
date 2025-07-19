@@ -56,6 +56,54 @@ class Transaction extends Model
         return $id = $Transaction->id;
     }
 
+    public static function insert_user_package($orders)
+    {
+        $user_id = $orders->user_id;
+        $package_id = $orders->p_id;
+        $type = $orders->p_type;
+        $date_time = date("Y-m-d H:i:s");
+
+        $package_name = '';
+        if($type==1)
+        {
+            $package = DB::table("package")->where("id",$package_id)->first();
+            $package_name = 'Package';
+        }
+        else
+        {
+            $package_name = '';
+        }
+
+        
+        $start_date_time = date("Y-m-d H:i:s", strtotime($date_time));
+        $end_date_time = date("Y-m-d H:i:s", strtotime("+1 year $date_time"));
+
+        DB::table("user_package")->insert([
+          "user_id"=>$user_id,
+          "transaction_table_id"=>$orders->id,
+          "type"=>$type,
+          "package_name"=>$package_name,
+          "package_id"=>$package_id,
+          "date_time"=>date("Y-m-d H:i:s"),
+          "start_date_time"=>$start_date_time,
+          "end_date_time"=>$end_date_time,
+          "status"=>1,
+        ]);
+        // DB::table("users")->where('id',$user_id)->update(["package_id"=>$package_id,"package_name"=>$package_name,]);
+
+        // $check_user_package = DB::table('user_package')->where("user_id",$user_id)->where("transaction_id",$orders->transaction_id)
+        // ->orderBy('id','desc')
+        // ->get();
+        // if($type2!=4)
+        // {
+        //   if(count($check_user_package)>1)
+        //   {
+        //     $check_user_package = $check_user_package[0];
+        //     DB::table('user_package')->where("id",$check_user_package->id)->delete();
+        //   }
+        // }
+    }
+
     public static function update_transaction($id)
     {
         $date_time = date("Y-m-d H:i:s");

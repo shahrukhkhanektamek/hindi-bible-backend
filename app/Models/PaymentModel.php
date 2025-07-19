@@ -252,7 +252,7 @@ class PaymentModel extends Model
             $key = $key_data->key;
             $salt = $key_data->salt;
             $orders = $data['orders'];            
-            $amount = $data['amount'];
+            $amount = $orders->final_amount;
             $productinfo = $orders->product_name;
             $api = new Api($key, $salt);
             $razorpayOrder = $api->order->create(array(

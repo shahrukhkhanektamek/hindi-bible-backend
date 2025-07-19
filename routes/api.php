@@ -106,6 +106,7 @@ Route::group(['prefix'=>'user','as'=>'user.', 'namespace'=>'User'], function(){
         });
 
         Route::get('create-transaction', [PaymentController::class, 'create_transaction'])->name('create-transaction');
+        Route::get('check-transaction-status', [PaymentController::class, 'check_transaction_status'])->name('check-transaction-status');
 
 
 

@@ -7,8 +7,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Date Time</th>
+                    <th scope="col">Payment Detail</th>
                     <th scope="col">Status</th>
                     <th scope="col">Action</th>
                 </tr>
@@ -18,35 +17,27 @@
                 <tr>
                     <td>
                         {{$value->transaction_id}}<br>
-                        
-                        @if($value->is_paid==1)
-                            <span class="badge bg-success" style="font-size: 15px;margin-top: 5px;">ID Active</span>
-                        @endif
-                        @if($value->is_paid==0)
-                            <span class="badge bg-danger" style="font-size: 15px;margin-top: 5px;">ID Inactive</span>
-                        @endif
-
                     </td>
                     <td>
                         {{$value->user_name}}<br>
-                        <b>{{sort_name.$value->affiliate_id}}</b>
+                        <b>{{sort_name.$value->uid}}</b>
                     </td>
                     <td>{{$value->user_email}}</td>
                     <td>{{$value->user_phone}}</td>
                     <td>
-                        @if($value->order_type==1)
-                            <div class="badge badge bg-info" style="margin: 0 auto;font-size: 12px;">Perchase</div>
-                        @endif
-                        @if($value->order_type==2)
-                            <div class="badge badge bg-vertical-gradient-4" style="margin: 0 auto;font-size: 12px;">Upgrade</div>
-                        @endif
-                    </td>
-                    <td>
-                        <b>Create Date Time: </b>{{date("Y M, d",strtotime($value->add_date_time))}} - {{date("h:i A",strtotime($value->add_date_time))}}<br>
-                        <b>Payment Date Time: </b>
+
+                        <span style="display: block;margin-bottom: 10px;"><b>Country:</b> <div class="badge badge bg-info" style="margin: 0 auto;font-size: 12px;">{{$value->payment_type_text}}</div></span>
+                        <span style="display: block;margin-bottom: 10px;"><b>Item Type:</b> <div class="badge badge bg-info" style="margin: 0 auto;font-size: 12px;">{{$value->p_type_text}}</div></span>
+                        <span style="display: block;margin-bottom: 10px;"><b>Payment Type:</b> <div class="badge badge bg-info" style="margin: 0 auto;font-size: 12px;">{{$value->payment_by}}</div></span>
+                            
+                       
+
+                        <span style="display: block;margin-bottom: 10px;"><b>Create Date Time: </b>{{date("Y M, d",strtotime($value->add_date_time))}} - {{date("h:i A",strtotime($value->add_date_time))}}</span>
+                        <span style="display: block;margin-bottom: 10px;"><b>Payment Date Time: </b>
                             @if(!empty($value->payment_date_time))
                                 {{date("Y M, d",strtotime($value->payment_date_time))}} - {{date("h:i A",strtotime($value->payment_date_time))}}
                             @endif
+                        </span>
                     </td>
                     <td>{!!Helpers::status_get($value->status,'invoice')!!}</td>
                     <td>

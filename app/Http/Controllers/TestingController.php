@@ -31,8 +31,13 @@ class TestingController extends Controller
 
     public function test_package(Request $request)
     {
+        echo "string";
 
+        $orders = DB::table('transaction')->where("id",25)->first();
+        print_r($orders);
+        Transaction::insert_user_package($orders);
 
+        die;
         $tree_view = MemberModel::tree_view(66825);
         print_r(json_encode($tree_view));
         

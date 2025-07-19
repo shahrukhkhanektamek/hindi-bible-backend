@@ -249,7 +249,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="<?php echo e(route('order.list')); ?>">
+                            <a class="nav-link menu-link" href="<?php echo e(route('transaction.list')); ?>">
                                 <i class="ri-shopping-basket-2-line"></i> <span data-key="t-dashboards">Transaction</span>
                             </a>
                         </li>

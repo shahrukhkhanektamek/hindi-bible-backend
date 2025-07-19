@@ -75,6 +75,10 @@ class RazorpayController extends Controller
                 if($payment_status['status']=='paid' || $payment_status['status']=='captured')
                 {
                     Transaction::update_transaction($orders->id);
+                    if($orders->p_type==1)
+                    {
+                        Transaction::insert_user_package($orders);
+                    }
                     $url = url('/').'/payment-success';
                     return redirect($url);
                 }

@@ -169,48 +169,7 @@ class Custom extends Model
     }
 
 
-    public static function insert_user_package($user_id,$package_id,$type='')
-    {
-        $type2 = 0;
-        $orders = DB::table('orders')->where("user_id",$user_id)
-        ->orderBy('id','desc')
-        ->first();
-        $package = DB::table("package")->where("id",$package_id)->first();
-        if(empty($type)) $type = 3;
-        if($type==4) 
-        {
-          $type = 3;
-          $type2 = 4;
-        }
-
-        DB::table("user_package")->insert([
-          "user_id"=>$user_id,
-          "transaction_id"=>$orders->transaction_id,
-          "type"=>$type,
-          "amount"=>$package->sale_price,
-          "tds"=>0,
-          "gst"=>0,
-          "final_amount"=>$package->sale_price,
-          "package_name"=>$package->name,
-          "package_id"=>$package_id,
-          "currency"=>'INR',
-          "date_time"=>date("Y-m-d H:i:s"),
-          "status"=>1,
-        ]);
-        DB::table("users")->where('id',$user_id)->update(["package"=>$package_id,"package_name"=>$package->name,]);
-
-        $check_user_package = DB::table('user_package')->where("user_id",$user_id)->where("transaction_id",$orders->transaction_id)
-        ->orderBy('id','desc')
-        ->get();
-        if($type2!=4)
-        {
-          if(count($check_user_package)>1)
-          {
-            $check_user_package = $check_user_package[0];
-            DB::table('user_package')->where("id",$check_user_package->id)->delete();
-          }
-        }
-    }
+    
 
     
     

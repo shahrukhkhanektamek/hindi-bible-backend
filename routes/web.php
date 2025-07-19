@@ -13,8 +13,10 @@ define("brevo_api", '');
 
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\WebController;
+use App\Http\Controllers\TestingController;
 
 
+Route::post('test_package', [TestingController::class, 'test_package']);
 
 
 Route::post('category', [WebController::class, 'category'])->name('category');

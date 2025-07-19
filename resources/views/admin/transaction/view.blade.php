@@ -100,15 +100,22 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody id="products-list">
-                                                            @foreach($detail as $key => $value)
+                                                            
                                                                 <tr>
                                                                     <td class="text-start">
-                                                                        <p class="text-muted mb-0">{{$value->name}}</p>
+                                                                        @if($row->p_type==1)
+                                                                        <p class="text-muted mb-0">Package</p>
+                                                                        @elseif($row->p_type==2)
+                                                                        <p class="text-muted mb-0">Video</p>
+                                                                        @elseif($row->p_type==3)
+                                                                        <p class="text-muted mb-0">Contribution</p>
+
+                                                                        @endif
                                                                     </td>
-                                                                    <td>{{$value->qty}}</td>
-                                                                    <td class="text-end">{{Helpers::price_formate($tax_amount)}}</td>
+                                                                    <td>1</td>
+                                                                    <td class="text-end">{{Helpers::price_formate($row->amount)}}</td>
                                                                 </tr>
-                                                            @endforeach
+                                                            
                                                             
                                                             
                                                         </tbody>
@@ -119,15 +126,15 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td>Sub Total</td>
-                                                                <td class="text-end">{{Helpers::price_formate($tax_amount)}} (GST Included)</td>
+                                                                <td class="text-end">{{Helpers::price_formate($row->amount)}}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Discount </td>
-                                                                <td class="text-end">{{Helpers::price_formate($discount)}}</td>
+                                                                <td>GST </td>
+                                                                <td class="text-end">{{Helpers::price_formate($row->gst)}}</td>
                                                             </tr>
                                                             <tr class="border-top border-top-dashed fs-15">
                                                                 <th scope="row">Total Amount</th>
-                                                                <th class="text-end">{{Helpers::price_formate($final_price)}}</th>
+                                                                <th class="text-end">{{Helpers::price_formate($row->final_amount)}}</th>
                                                             </tr>
                                                         </tbody>
                                                     </table>

@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\UserController;
 
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\SettingController;
 
 use App\Http\Controllers\Admin\NewsController;
@@ -229,6 +230,13 @@ Route::group(['middleware' => ['admin']], function () {
         Route::get('edit/{id?}', [OrderController::class, 'edit'])->name('edit');
         Route::get('view/{id?}', [OrderController::class, 'view'])->name('view');
         Route::post('update', [OrderController::class, 'update'])->name('update');
+    });
+    Route::group(['prefix'=>'transaction', 'as'=>'transaction.'], function(){
+        Route::get('/', [TransactionController::class, 'index'])->name('list');
+        Route::get('load_data', [TransactionController::class, 'load_data'])->name('load_data');
+        Route::get('edit/{id?}', [TransactionController::class, 'edit'])->name('edit');
+        Route::get('view/{id?}', [TransactionController::class, 'view'])->name('view');
+        Route::post('update', [TransactionController::class, 'update'])->name('update');
     });
 
 

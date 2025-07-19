@@ -122,7 +122,7 @@ class CommonController extends Controller
         $package = DB::table("package")->first();
 
         $start_date_time = date("Y-m-d", strtotime($date_time));
-        $end_date_time = date("Y-m-d", strtotime("+1 month $date_time"));
+        $end_date_time = date("Y-m-d", strtotime("+1 year $date_time"));
 
         $data['detail'] = [
             "fees_string"=>"1 YEAR = $package->cost/-",
